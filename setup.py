@@ -22,5 +22,8 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 3'
     ],
-    long_description=long_description
+    long_description=long_description,
+    install_requires=[
+        'evnthandler'
+    ]
 )
