@@ -4,12 +4,9 @@ python:
   - 3.6
   - 3.7
   - 3.8
-  - pypy3
+  #- pypy3
 install:
-  - pip install -r tools/test-requires
-  - pipenv lock
-  - pipenv update
-  - pipenv install --system --deploy
+  - pipenv install --dev
   - python setup.py install
 script: nosetests --with-coverage --cover-package=snapshotstore
 after_success: coveralls
