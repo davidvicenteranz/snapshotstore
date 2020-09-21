@@ -4,5 +4,5 @@
 
 ### Build Status:
 [![Build Status](https://travis-ci.org/davidvicenteranz/snapshotstore.svg?branch=master)](https://travis-ci.org/davidvicenteranz/snapshotstore) 
-[![Coverage Status](https://coveralls.io/repos/github/davidvicenteranz/snaphotstore/badge.svg)](https://coveralls.io/github/davidvicenteranz/snapshotstore) 
+[![Coverage Status](https://coveralls.io/repos/github/davidvicenteranz/snapshotstore/badge.svg?branch=master)](https://coveralls.io/github/davidvicenteranz/snapshotstore?branch=master) 
 
