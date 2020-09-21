@@ -1,0 +1,15 @@
+language: python
+python:
+  #- 3.5 Do not allow casting
+  - 3.6
+  - 3.7
+  - 3.8
+  - pypy3
+install:
+  - pip install -r tools/test-requires
+  - pipenv lock
+  - pipenv update
+  - pipenv install --system --deploy
+  - python setup.py install
+script: nosetests --with-coverage --cover-package=snapshotstore
+after_success: coveralls
