@@ -8,5 +8,7 @@ python:
 install:
   - pipenv install --dev
   - python setup.py install
+  - ls -lha tests
+  - ls -lha testst/test_volume
 script: nosetests --with-coverage --cover-package=snapshotstore
 after_success: coveralls
