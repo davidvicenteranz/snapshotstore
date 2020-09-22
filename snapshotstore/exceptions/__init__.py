@@ -8,3 +8,6 @@ class PathIsNotDir(Exception):
 
 class PathIsNotWritable(Exception):
     """Raises when path is not writeable."""
+
+class PathIsNotReadable(Exception):
+    """Raises when path is not writeable."""

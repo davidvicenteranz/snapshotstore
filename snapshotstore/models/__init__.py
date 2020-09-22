@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from snapshotstore.exceptions import PathNotExistsError, PathIsNotDir, PathIsNotWritable
+from snapshotstore.exceptions import PathNotExistsError, PathIsNotDir, PathIsNotWritable, PathIsNotReadable
 
 """
 datastore
@@ -32,15 +32,21 @@ class PathClassModel:
     def check_path(path: str, raise_on_not_exists=True):
         """Check if path is usable. Must exists, be a directory and writeble by this instance."""
         path = Path(path)
+        if path.is_symlink():
+            path = Path(os.readlink(path))
+
         if not path.exists() and raise_on_not_exists:
             raise PathNotExistsError(f'Path {path} does not exist.')
         if not path.is_dir():
             raise PathIsNotDir(f'Path {path} is not a directory.')
+        if not os.access(path, os.R_OK):
+            raise PathIsNotReadable(f'Path {path} exists, but is not readable.')
         if raise_on_not_exists and not os.access(path, os.W_OK):
             raise PathIsNotWritable(f'Path {path} exists, but is not writable.')
 
         if path.is_absolute():
             return path
+
 
         return path.absolute()
 
