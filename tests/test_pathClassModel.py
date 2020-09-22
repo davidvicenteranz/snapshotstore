@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 from unittest import TestCase
 
@@ -14,6 +15,8 @@ if not test_path.exists():
 
 if not Path(relative_path).exists():
     relative_path = './tests/test_volume'
+
+print('test_path', test_path, file=sys.stderr)
 
 class TestPathClassModel(TestCase):
 
