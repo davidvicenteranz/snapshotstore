@@ -20,7 +20,6 @@ print('test_path', test_path, file=sys.stderr)
 
 
 files = result = [os.path.join(dp, f) for dp, dn, filenames in os.walk(test_path) for f in filenames]
-print(files, file=sys.stderr)
 
 class TestPathClassModel(TestCase):
 
@@ -38,11 +37,14 @@ class TestPathClassModel(TestCase):
         with self.assertRaises(PathIsNotDir) as context:
             PathClassModel.check_path(Path(test_path).joinpath('this_file_is_not_a_dir'))
 
-    def test_not_writeable_dir(self):
+    def test_not_writable_dir(self):
+        from stat import S_IREAD
         not_writable_path = str(Path(relative_path).joinpath('not_writable_dir').absolute())
-        os.mkdir(not_writable_path, mode=444)
+        os.mkdir(not_writable_path, S_IREAD)
         self.assertFalse(Path(relative_path).is_absolute())
         self.assertTrue(PathClassModel.check_path(relative_path).is_absolute())
+        with self.assertRaises(PathIsNotWritable) as context:
+            PathClassModel.check_path(not_writable_path)
         os.chmod(not_writable_path, mode=7777)
         os.removedirs(not_writable_path)
 
