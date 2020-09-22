@@ -18,10 +18,15 @@ if not Path(relative_path).exists():
 
 print('test_path', test_path, file=sys.stderr)
 
+
+files = result = [os.path.join(dp, f) for dp, dn, filenames in os.walk(test_path) for f in filenames]
+print(files, file=sys.stderr)
+
 class TestPathClassModel(TestCase):
 
     def test_check_path(self):
         path = PathClassModel.check_path(TMP_PATH)
+        self.assertTrue(isinstance(path, Path))
         self.assertEqual(path, Path(TMP_PATH))
         self.assertTrue(path.exists())
 
@@ -34,11 +39,15 @@ class TestPathClassModel(TestCase):
             PathClassModel.check_path(Path(test_path).joinpath('this_file_is_not_a_dir'))
 
     def test_not_writeable_dir(self):
-        with self.assertRaises(PathIsNotWritable) as context:
-            PathClassModel.check_path(Path(test_path).joinpath('not_writable_dir'))
+        not_writable_path = str(Path(relative_path).joinpath('not_writable_dir').absolute())
+        os.mkdir(not_writable_path, mode=444)
+        self.assertFalse(Path(relative_path).is_absolute())
+        self.assertTrue(PathClassModel.check_path(relative_path).is_absolute())
+        os.chmod(not_writable_path, mode=7777)
+        os.removedirs(not_writable_path)
 
     def test_relative_path(self):
         """"Test chek_path returns absolute path"""
-        self.assertFalse(Path(relative_path).is_absolute())
-        self.assertTrue(PathClassModel.check_path(relative_path).is_absolute())
+        self.assertEqual(str(PathClassModel.check_path('.')), os.getcwd())
+        self.assertTrue(isinstance(PathClassModel.check_path('.'), Path))
 

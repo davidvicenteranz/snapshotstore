@@ -36,7 +36,7 @@ class PathClassModel:
             raise PathNotExistsError(f'Path {path} does not exist.')
         if not path.is_dir():
             raise PathIsNotDir(f'Path {path} is not a directory.')
-        if raise_on_not_exists and path.exists() and not os.access(path, os.W_OK):
+        if raise_on_not_exists and not os.access(path, os.W_OK):
             raise PathIsNotWritable(f'Path {path} exists, but is not writable.')
 
         if path.is_absolute():
